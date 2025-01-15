@@ -3,21 +3,17 @@ import toast, { Toaster } from "react-hot-toast";
 
 import './index.css';
 
-import dotenv from "dotenv";
-dotenv.config();
-
 const App = () => {
   const [paymentStatus, setPaymentStatus] = useState("");
 
   const checkPaymentStatus = async () => {
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/webhook/razorpay`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/webhook/razorpay`, { 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // Populate this payload based on Razorpay webhook data
         }),
       });
 
@@ -32,14 +28,14 @@ const App = () => {
     } catch (error) {
       setPaymentStatus("Error occurred");
       toast.error("Something went wrong!");
-      console.log(error)
+      console.log(error);
     }
   };
 
   useEffect(() => {
     // Call checkPaymentStatus whenever needed
     checkPaymentStatus();
-  }, []);
+  }, []); // Effect will run once on mount
 
   return (
     <div className="container">
